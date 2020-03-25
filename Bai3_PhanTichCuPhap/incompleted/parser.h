@@ -55,6 +55,11 @@ void compileTerm2(void);
 void compileFactor(void);
 void compileIndexes(void);
 
+// a, b, c := b, c, a
+void compileVariableFunctions(void);
+void compileExpressions(void);
+void compileVariableFunction(void);
+
 int compile(char *fileName);
 
 #endif

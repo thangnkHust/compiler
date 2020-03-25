@@ -345,18 +345,58 @@ void compileStatement(void) {
   }
 }
 
-
+// Fix assign A, B, C := B, C, A
+// VariableFunction ::= Variable
+// VariableFunction ::= FunctionIdent
+// VariableFunctions ::= VariableFunction SB_COMMA VariableFunctions
+// VariableFunctions ::= VariableFunction
+// Expressions ::= Expression SB_COMMA Expressions
+// Expressions ::=  Expression
+// AssignST ::= VariableFunctions SB_ASSIGN Expressions
 void compileAssignSt(void) {
   assert("Parsing an assign statement ....");
-  eat(TK_IDENT);
-  // F(.1.)(.2.)
-  if(lookAhead->tokenType == SB_LSEL){
-    compileIndexes();
-  }
+  compileVariableFunctions();
   eat(SB_ASSIGN);
-  compileExpression();
+  compileExpressions();
   assert("Assign statement parsed ....");
 }
+
+void compileVariableFunctions(void){
+  compileVariableFunction();
+  if(lookAhead->tokenType == SB_COMMA){
+    eat(SB_COMMA);
+    compileVariableFunctions();
+  }
+}
+
+void compileExpressions(void){
+  compileExpression();
+  if(lookAhead->tokenType == SB_COMMA){
+    eat(SB_COMMA);
+    compileExpressions();
+  }
+}
+
+void compileVariableFunction(void){
+    eat(TK_IDENT);
+    // F(.1.)(.2.)
+    if(lookAhead->tokenType == SB_LSEL){
+      compileIndexes();
+    }
+}
+
+
+// void compileAssignSt(void) {
+//   assert("Parsing an assign statement ....");
+//   eat(TK_IDENT);
+//   // F(.1.)(.2.)
+//   if(lookAhead->tokenType == SB_LSEL){
+//     compileIndexes();
+//   }
+//   eat(SB_ASSIGN);
+//   compileExpression();
+//   assert("Assign statement parsed ....");
+// }
 
 void compileCallSt(void) {
   assert("Parsing a call statement ....");
