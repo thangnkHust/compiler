@@ -1,0 +1,7 @@
+.DS_Store
+.dropbox.attr
+*.zip
+../.DS_Store
+incomplete/*.o
+incomplete/.dropbox.attr
+scanner
