@@ -1,11 +1,12 @@
 Program Example5; (* Factorial *)
    
 Var n : Integer;
-    i 1 : char;
+    i : char;
 
 Function F(n : Integer) : Integer;
   Begin
     If n = 0 Then F := 1 Else F := N * F (N - 1);
+    If n = 0 return F := 1 Else return F := 0
   End;
 
 Begin

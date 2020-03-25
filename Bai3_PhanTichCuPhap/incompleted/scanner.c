@@ -54,8 +54,7 @@ Token* readIdentKeyword(void) {
   token->string[0] = (char)currentChar;
   readChar();
 
-  while ((currentChar != EOF) && 
-	 ((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT))) {
+  while ((currentChar != EOF) && ((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT))) {
     if (count <= MAX_IDENT_LEN) token->string[count++] = (char)currentChar;
     readChar();
   }
@@ -276,6 +275,8 @@ void printToken(Token *token) {
   case KW_DO: printf("KW_DO\n"); break;
   case KW_FOR: printf("KW_FOR\n"); break;
   case KW_TO: printf("KW_TO\n"); break;
+
+  case KW_RETURN: printf("KW_TO\n"); break;
 
   case SB_SEMICOLON: printf("SB_SEMICOLON\n"); break;
   case SB_COLON: printf("SB_COLON\n"); break;

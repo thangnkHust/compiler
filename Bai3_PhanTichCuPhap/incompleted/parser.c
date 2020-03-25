@@ -31,7 +31,7 @@ void eat(TokenType tokenType) {
 void compileProgram(void) {
   assert("Parsing a Program ....");
   eat(KW_PROGRAM);
-  eat(TK_IDENT);
+  eat(TK_IDENT); 
   eat(SB_SEMICOLON);
   compileBlock();
   eat(SB_PERIOD);
@@ -268,6 +268,7 @@ void compileBasicType(void) {
 
 void compileParams(void) {
   if(lookAhead->tokenType == SB_LPAR){
+    eat(SB_LPAR);
     compileParam();
     compileParams2();
     eat(SB_RPAR);
@@ -276,6 +277,7 @@ void compileParams(void) {
 
 void compileParams2(void) {
   if(lookAhead->tokenType == SB_SEMICOLON){
+    eat(SB_SEMICOLON);
     compileParam();
     compileParams2();
   }
