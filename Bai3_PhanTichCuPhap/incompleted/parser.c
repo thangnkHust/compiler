@@ -561,6 +561,18 @@ void compileExpression(void) {
     eat(SB_MINUS);
     compileExpression2();
     break;
+
+  case KW_IF:
+    printf("abc\n");
+    eat(KW_IF);
+    compileCondition();
+    eat(KW_RETURN);
+    compileExpression();
+    eat(KW_ELSE);
+    eat(KW_RETURN);
+    compileExpression();
+    break;
+  
   default:
     compileExpression2();
     break;
@@ -608,6 +620,9 @@ void compileExpression3(void) {
   case SB_RSEL:
   // Follow (if statement)
   case KW_THEN:
+      break;
+  // Follow (if statement)
+  case KW_RETURN:
       break;
   // Error
   default:
@@ -659,6 +674,8 @@ void compileTerm2(void) {
   // Follow (if statement)
   case KW_THEN:
       break;
+  case KW_RETURN:
+    break;
   default:
       error(ERR_INVALIDTERM, lookAhead->lineNo, lookAhead->colNo);
       break;
