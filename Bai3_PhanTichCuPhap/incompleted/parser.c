@@ -563,7 +563,6 @@ void compileExpression(void) {
     break;
 
   case KW_IF:
-    printf("abc\n");
     eat(KW_IF);
     compileCondition();
     eat(KW_RETURN);
@@ -621,7 +620,7 @@ void compileExpression3(void) {
   // Follow (if statement)
   case KW_THEN:
       break;
-  // Follow (if statement)
+  // Follow (if statement in expression)
   case KW_RETURN:
       break;
   // Error
@@ -674,6 +673,7 @@ void compileTerm2(void) {
   // Follow (if statement)
   case KW_THEN:
       break;
+  // Follow (if statement in expression)
   case KW_RETURN:
     break;
   default:
