@@ -214,10 +214,18 @@ Token* getToken(void) {
 		readChar();
 		return token;
 	case CHAR_SLASH:
-		// Token times
-		token = makeToken(SB_SLASH, lineNo, colNo);
+		// Token slash
 		readChar();
-		return token;
+		if(currentChar != CHAR_SLASH){
+			token = makeToken(SB_SLASH, lineNo, colNo - 1);
+			readChar();
+		}else{
+			while(currentChar != '\n'){
+				printf("hello");
+				readChar();
+			}
+			break;
+		}
 	case CHAR_EQ:
 		// Token times
 		token = makeToken(SB_EQ, lineNo, colNo);

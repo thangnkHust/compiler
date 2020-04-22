@@ -1,6 +1,7 @@
 Program Example1; (* Example 1 *)
 
 Begin
+    // hello
     x = 1;
 	FOR (1,100)
           CALL  WRITEC(' ');
