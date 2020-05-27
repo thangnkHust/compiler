@@ -55,7 +55,7 @@ int compareType(Type* type1, Type* type2) {
   if (type1->typeClass == type2->typeClass) {
     if (type1->typeClass == TP_ARRAY) {
       if (type1->arraySize == type2->arraySize)
-        return compareType(type1->elementType, type2->elementType);
+	return compareType(type1->elementType, type2->elementType);
       else return 0;
     } else return 1;
   } else return 0;
@@ -242,16 +242,13 @@ void addObject(ObjectNode **objList, Object* obj) {
   ObjectNode* node = (ObjectNode*) malloc(sizeof(ObjectNode));
   node->object = obj;
   node->next = NULL;
-  if ((*objList) == NULL){
-    if(obj->kind != OBJ_CONSTANT)
-      *objList = node;
-  }else {
+  if ((*objList) == NULL) 
+    *objList = node;
+  else {
     ObjectNode *n = *objList;
-    while (n->next != NULL){
+    while (n->next != NULL) 
       n = n->next;
-    }
-    if(obj->kind != OBJ_CONSTANT)
-      n->next = node;
+    n->next = node;
   }
 }
 
@@ -316,19 +313,6 @@ void exitBlock(void) {
   symtab->currentScope = symtab->currentScope->outer;
 }
 
-Object* lookupObject(char *name) {
-  Scope* scope = symtab->currentScope; 
-  Object* obj;
-  while (scope != NULL) {
-    obj = findObject(scope->objList, name);//Tim trong pham vi hien hành 
-    if (obj != NULL) return obj;
-    scope = scope->outer;
-  }
-  obj = findObject(symtab->globalObjectList, name); 
-  if (obj != NULL) return obj;
-  return NULL;
-}
-
 void declareObject(Object* obj) {
   if (obj->kind == OBJ_PARAMETER) {
     Object* owner = symtab->currentScope->owner;
@@ -343,7 +327,7 @@ void declareObject(Object* obj) {
       break;
     }
   }
-
+ 
   addObject(&(symtab->currentScope->objList), obj);
 }
 
