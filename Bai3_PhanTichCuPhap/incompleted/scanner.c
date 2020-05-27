@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "reader.h"
 #include "charcode.h"
@@ -51,11 +52,11 @@ Token* readIdentKeyword(void) {
   Token *token = makeToken(TK_NONE, lineNo, colNo);
   int count = 1;
 
-  token->string[0] = (char)currentChar;
+  token->string[0] = tolower((char)currentChar);
   readChar();
 
   while ((currentChar != EOF) && ((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT))) {
-    if (count <= MAX_IDENT_LEN) token->string[count++] = (char)currentChar;
+    if (count <= MAX_IDENT_LEN) token->string[count++] = tolower((char)currentChar);
     readChar();
   }
 
@@ -151,7 +152,10 @@ Token* getToken(void) {
     if ((currentChar != EOF) && (charCodes[currentChar] == CHAR_EQ)) {
       readChar();
       return makeToken(SB_LE, ln, cn);
-    } else return makeToken(SB_LT, ln, cn);
+    } else if((currentChar != EOF) && (charCodes[currentChar] == CHAR_GT)){
+      readChar();
+      return makeToken(SB_NEQ, ln, cn);
+    }else return makeToken(SB_LT, ln, cn);
   case CHAR_GT:
     ln = lineNo;
     cn = colNo;
@@ -160,9 +164,14 @@ Token* getToken(void) {
       readChar();
       return makeToken(SB_GE, ln, cn);
     } else return makeToken(SB_GT, ln, cn);
-  case CHAR_EQ: 
+  case CHAR_EQ:
     token = makeToken(SB_EQ, lineNo, colNo);
-    readChar(); 
+    readChar();
+    // = and ==
+    if ((currentChar != EOF) && (charCodes[currentChar] == CHAR_EQ)) {
+      readChar();
+      token = makeToken(SB_EQ, lineNo, colNo);
+    }
     return token;
   case CHAR_EXCLAIMATION:
     ln = lineNo;
@@ -224,6 +233,10 @@ Token* getToken(void) {
     token = makeToken(SB_RPAR, lineNo, colNo);
     readChar(); 
     return token;
+  case CHAR_QT:
+    token = makeToken(SB_QT, lineNo, colNo);
+    readChar();
+    return token;
   default:
     token = makeToken(TK_NONE, lineNo, colNo);
     error(ERR_INVALIDSYMBOL, lineNo, colNo);
@@ -277,6 +290,7 @@ void printToken(Token *token) {
   case KW_TO: printf("KW_TO\n"); break;
 
   case KW_RETURN: printf("KW_RETURN\n"); break;
+  case SB_QT: printf("SB_QT\n"); break;
 
   case SB_SEMICOLON: printf("SB_SEMICOLON\n"); break;
   case SB_COLON: printf("SB_COLON\n"); break;

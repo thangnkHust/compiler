@@ -5,6 +5,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "reader.h"
 #include "scanner.h"
@@ -360,6 +361,40 @@ void compileAssignSt(void) {
   compileVariableFunctions();
   eat(SB_ASSIGN);
   compileExpressions();
+  switch(lookAhead->tokenType){
+    case SB_EQ:
+      eat(SB_EQ);
+      compileExpression();
+      break;
+    case SB_NEQ:
+      eat(SB_NEQ);
+      compileExpression();
+      break;
+    case SB_LE:
+      eat(SB_LE);
+      compileExpression();
+      break;
+    case SB_LT:
+      eat(SB_LT);
+      compileExpression();
+      break;
+    case SB_GE:
+      eat(SB_GE);
+      compileExpression();
+      break;
+    case SB_GT:
+      eat(SB_GT);
+      compileExpression();
+      break;
+    default:
+      break;
+  }
+  if(lookAhead->tokenType == SB_QT){
+    eat(SB_QT);
+    compileExpression();
+    eat(SB_COLON);
+    compileExpression();
+  }
   assert("Assign statement parsed ....");
 }
 
@@ -571,7 +606,6 @@ void compileExpression(void) {
     eat(KW_RETURN);
     compileExpression();
     break;
-  
   default:
     compileExpression2();
     break;
@@ -580,6 +614,8 @@ void compileExpression(void) {
 }
 
 void compileExpression2(void) {
+  printf("Expression 2\n");
+
   compileTerm();
   compileExpression3();
 }
@@ -587,6 +623,14 @@ void compileExpression2(void) {
 
 void compileExpression3(void) {
   switch(lookAhead->tokenType) {
+  case SB_QT:
+    // eat(SB_QT);
+    // compileExpression();
+    // eat(SB_COLON);
+    // compileExpression();
+    break;
+  case SB_COLON:
+    break;
   case SB_PLUS:
       eat(SB_PLUS);
       compileTerm();
@@ -608,11 +652,29 @@ void compileExpression3(void) {
   case SB_COMMA:
   // Follow (condition2)
   case SB_EQ:
+    // eat(SB_EQ);
+    // compileExpression();
+    // break;
   case SB_NEQ:
+    // eat(SB_NEQ);
+    // compileExpression();
+    // break;
   case SB_LE:
+    // eat(SB_LE);
+    // compileExpression();
+    // break;
   case SB_LT:
+    // eat(SB_LT);
+    // compileExpression();
+    // break;
   case SB_GE:
+    // eat(SB_GE);
+    // compileExpression();
+    // break;
   case SB_GT:
+    // eat(SB_GT);
+    // compileExpression();
+    // break;
   // Follow (factor)
   case SB_RPAR:
   // Follow (indexes)
@@ -675,6 +737,10 @@ void compileTerm2(void) {
       break;
   // Follow (if statement in expression)
   case KW_RETURN:
+    break;
+  case SB_QT:
+    break;
+  case SB_COLON:
     break;
   default:
       error(ERR_INVALIDTERM, lookAhead->lineNo, lookAhead->colNo);
