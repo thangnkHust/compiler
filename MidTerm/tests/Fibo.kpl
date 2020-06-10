@@ -1,0 +1,15 @@
+Program Fibo; (* Fibonacy *)
+Var n : Integer;
+    x : Integer;
+    k : Integer;
+Function F(n : Integer) : Integer;
+  Begin
+    If n = 0 Then F := 0
+    Else If n = 1 then F := 1
+    Else F := F(n - 1) + F(n - 2);
+  End;
+Begin
+    n := readi;
+    Call Writei(F(n));
+    x := 2**(3*(2+5));
+End. 

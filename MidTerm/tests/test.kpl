@@ -1,0 +1,11 @@
+Program test; 
+Var n : double;
+    s : string;
+
+function F(n : double; s: string) : string;
+begin
+    if n < 0 then F:= "abc" + "defg" else F:= F(n-1, s) + F(n-1, s);
+end;
+begin
+    call writeS(F(10.5, "hello"));
+end.

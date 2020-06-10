@@ -1,0 +1,20 @@
+program ifExpress;
+const Y = 100.5;
+var Tong : float;
+    number : integer;
+    x : float;
+
+begin
+    do 
+        begin 
+        Tong, number := 5.5 + 5, 6;
+        Tong := Tong + number;
+        number := number - 2;
+        end
+    while 
+        number = 0;
+
+    x := if x = 0 return 0 else return if x > 0 then x else  -x;
+    x := if x = 0 then 4 else 5.1; 
+
+end.

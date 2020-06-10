@@ -1,0 +1,26 @@
+program TestDoWhile; 
+const a = -10;
+      b = "Thang";
+var Tong : float;
+    number : integer;
+    x : integer;
+
+begin
+    Tong := -14.2 + 15;
+    do 
+        begin
+            Tong := 1;
+            do
+                begin 
+                    Tong, number := 5.5 + 5, 6;
+                    Tong := Tong + number;
+                    number := number - 2;
+                end
+            while number = 1;
+        end
+    while 
+        number = 0;
+
+    x := sum 1 + 1, 2, 3;
+    Tong := .5 + 1;
+end.

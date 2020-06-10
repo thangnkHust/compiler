@@ -1,0 +1,32 @@
+Program testSwitchCase; 
+Const   a = 10.0;
+        b = 9.;
+        c = 8.;
+        d = 7.;
+        e = 6.;
+Var n : double;
+    ch : char;
+Begin
+    ch := 'f';
+    switch n
+    Begin
+        case a: 
+            call WRITEF(a);
+            break
+        case b: 
+            call WRITEF(b);
+            break
+        case c: 
+            call WRITEF(c);
+            break
+        case d: 
+            call WRITEF(d);
+            break
+        case e: 
+            call WRITEF(e);
+            break
+        default: 
+            call WRITEC(ch);
+            break
+    End;
+End.
