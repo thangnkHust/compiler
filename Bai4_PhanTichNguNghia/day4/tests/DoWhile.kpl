@@ -1,0 +1,21 @@
+program TestDoWhile; 
+Const A = 1.5;
+      B = 12.5;
+      C = "Thang";
+var sum : float;
+    number : integer;
+    x : integer;
+    str : string;
+
+begin
+    str := "abc";
+    (*do 
+        begin 
+        sum := .5 + 5;
+        sum, number := .5 + 5, 6;
+        sum := sum + number;
+        number := number - 2;
+        end
+    while 
+        number = 0*)
+end.

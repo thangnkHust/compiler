@@ -1,9 +1,12 @@
 PROGRAM  EXAMPLE4;  (* Example 4 *)
 CONST MAX = 10;
+      K = "Thang";
 TYPE T = INTEGER;
 VAR  A : ARRAY(. 10 .) OF T;
      N : INTEGER;
      CH : CHAR;
+     F : FLOAT;
+     STR : String;
 
 PROCEDURE INPUT;
 VAR I : INTEGER;
@@ -39,6 +42,8 @@ END;
 
 BEGIN
    CH := 'y';
+   STR := "kljasd";
+   F :=  5.4;
    WHILE CH = 'y' DO
      BEGIN
        CALL INPUT;

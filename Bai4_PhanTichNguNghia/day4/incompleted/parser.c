@@ -18,6 +18,8 @@ Token *lookAhead;
 
 extern Type* intType;
 extern Type* charType;
+extern Type* floatType;
+extern Type* stringType;
 extern SymTab* symtab;
 
 void scan(void) {
@@ -65,7 +67,6 @@ void compileBlock(void) {
       
       eat(SB_EQ);
       constValue = compileConstant();
-      
       constObj->constAttrs->value = constValue;
       declareObject(constObj);
       
@@ -217,6 +218,10 @@ ConstantValue* compileUnsignedConstant(void) {
     eat(TK_CHAR);
     constValue = makeCharConstant(currentToken->string[0]);
     break;
+  case TK_FLOAT:
+    eat(TK_FLOAT);
+    constValue = makeFloatConstant(currentToken->fvalue);
+    break;
   default:
     error(ERR_INVALID_CONSTANT, lookAhead->lineNo, lookAhead->colNo);
     break;
@@ -235,7 +240,6 @@ ConstantValue* compileConstant(void) {
   case SB_MINUS:
     eat(SB_MINUS);
     constValue = compileConstant2();
-    constValue->intValue = - constValue->intValue;
     break;
   case TK_CHAR:
     eat(TK_CHAR);
@@ -257,13 +261,21 @@ ConstantValue* compileConstant2(void) {
     eat(TK_NUMBER);
     constValue = makeIntConstant(currentToken->value);
     break;
+  case TK_FLOAT:
+    eat(TK_FLOAT);
+    constValue = makeFloatConstant(currentToken->fvalue);
+    break;
+  case TK_STRING:
+    eat(TK_STRING);
+    constValue = makeStringConstant(currentToken->string);
+    break;
   case TK_IDENT:
     eat(TK_IDENT);
     obj = checkDeclaredConstant(currentToken->string);
-    if (obj->constAttrs->value->type == TP_INT)
+    if (obj->constAttrs->value->type == TP_INT || TP_FLOAT)
       constValue = duplicateConstantValue(obj->constAttrs->value);
     else
-      error(ERR_UNDECLARED_INT_CONSTANT,currentToken->lineNo, currentToken->colNo);
+      error(/*ERR_UNDECLARED_INT_CONSTANT*/ ERR_UNDECLARED_CONSTANT,currentToken->lineNo, currentToken->colNo);
     break;
   default:
     error(ERR_INVALID_CONSTANT, lookAhead->lineNo, lookAhead->colNo);
@@ -281,17 +293,27 @@ Type* compileType(void) {
   switch (lookAhead->tokenType) {
   case KW_INTEGER: 
     eat(KW_INTEGER);
-    type =  makeIntType();
+    type = makeIntType(); 
+    break;
+  case KW_FLOAT:
+    eat(KW_FLOAT);
+    type = makeFloatType();
     break;
   case KW_CHAR: 
     eat(KW_CHAR); 
     type = makeCharType();
     break;
+  case KW_STRING:
+    eat(KW_STRING);
+    type = makeStringType();
+    break;
   case KW_ARRAY:
     eat(KW_ARRAY);
     eat(SB_LSEL);
+    // if(lookAhead->tokenType == TK_NUMBER)
     eat(TK_NUMBER);
-
+    // else
+      // eat(TK_CHAR);
     arraySize = currentToken->value;
 
     eat(SB_RSEL);
@@ -322,6 +344,14 @@ Type* compileBasicType(void) {
   case KW_CHAR: 
     eat(KW_CHAR); 
     type = makeCharType();
+    break;
+  case KW_FLOAT:
+    eat(KW_FLOAT);
+    type = makeFloatType();
+    break;
+  case KW_STRING:
+    eat(KW_STRING);
+    type = makeStringType();
     break;
   default:
     error(ERR_INVALID_BASICTYPE, lookAhead->lineNo, lookAhead->colNo);
@@ -611,12 +641,14 @@ Type* compileExpression(void) {
   case SB_PLUS:
     eat(SB_PLUS);
     type = compileExpression2();
-    checkIntType(type);
+    // checkIntType(type);
+    checkNumberType(type);
     break;
   case SB_MINUS:
     eat(SB_MINUS);
     type = compileExpression2();
-    checkIntType(type);
+    // checkIntType(type);
+    checkNumberType(type);
     break;
   default:
     type = compileExpression2();
@@ -627,7 +659,6 @@ Type* compileExpression(void) {
 Type* compileExpression2(void) {
   Type* type1;
   Type* type2;
-
   type1 = compileTerm();
   type2 = compileExpression3();
   if (type2 == NULL) return type1;
@@ -646,19 +677,23 @@ Type* compileExpression3(void) {
   case SB_PLUS:
     eat(SB_PLUS);
     type1 = compileTerm();
-    checkIntType(type1);
+    // checkIntType(type1);
+    checkNumberType(type1);
     type2 = compileExpression3();
     if (type2 != NULL)
-      checkIntType(type2);
+      // checkIntType(type2);
+      checkNumberType(type2);
     return type1;
     break;
   case SB_MINUS:
     eat(SB_MINUS);
     type1 = compileTerm();
-    checkIntType(type1);
+    // checkIntType(type1);
+    checkNumberType(type1);
     type2 = compileExpression3();
     if (type2 != NULL)
-      checkIntType(type2);
+      // checkIntType(type2);
+      checkNumberType(type2);
     return type1;
     break;
     // check the FOLLOW set
@@ -702,13 +737,15 @@ void compileTerm2(void) {
   case SB_TIMES:
     eat(SB_TIMES);
     type = compileFactor();
-    checkIntType(type);
+    // checkIntType(type);
+    checkNumberType(type);
     compileTerm2();
     break;
   case SB_SLASH:
     eat(SB_SLASH);
     type = compileFactor();
-    checkIntType(type);
+    // checkIntType(type);
+    checkNumberType(type);
     compileTerm2();
     break;
     // check the FOLLOW set
@@ -750,6 +787,14 @@ Type* compileFactor(void) {
     eat(TK_CHAR);
     type = charType;
     break;
+  case TK_FLOAT:
+    eat(TK_FLOAT);
+    type = floatType;
+    break;
+  case TK_STRING:
+    eat(TK_STRING);
+    type = stringType;
+    break;
   case TK_IDENT:
     eat(TK_IDENT);
     // check if the identifier is declared
@@ -761,6 +806,11 @@ Type* compileFactor(void) {
         type = intType;
       else if(obj->constAttrs->value->type == TP_CHAR)
         type = charType;
+      // Add float + string to Object constant
+      else if(obj->constAttrs->value->type == TP_FLOAT)
+        type = floatType;
+      else if(obj->constAttrs->value->type == TP_STRING)
+        type = stringType;
       break;
     case OBJ_VARIABLE:
       if(obj->varAttrs->type->typeClass == TP_ARRAY)

@@ -17,8 +17,13 @@ Object* checkDeclaredVariable(char *name);
 Object* checkDeclaredFunction(char *name);
 Object* checkDeclaredProcedure(char *name);
 Object* checkDeclaredLValueIdent(char *name);
-
+// Check Number type: int, float
+void checkNumberType(Type* type);
+// Check float type
+void checkFloatType(Type* type);
 void checkIntType(Type* type);
+// Check string type
+void checkStringType(Type* type);
 void checkCharType(Type* type);
 void checkArrayType(Type* type);
 void checkBasicType(Type* type);

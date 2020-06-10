@@ -18,6 +18,8 @@ void freeReferenceList(ObjectNode *objList);
 SymTab* symtab;
 Type* intType;
 Type* charType;
+Type* floatType;
+Type* stringType;
 
 /******************* Type utilities ******************************/
 
@@ -27,9 +29,21 @@ Type* makeIntType(void) {
   return type;
 }
 
+Type* makeFloatType(void) {
+  Type* type = (Type*) malloc(sizeof(Type));
+  type->typeClass = TP_FLOAT;
+  return type;
+}
+
 Type* makeCharType(void) {
   Type* type = (Type*) malloc(sizeof(Type));
   type->typeClass = TP_CHAR;
+  return type;
+}
+
+Type* makeStringType(void){
+  Type* type = (Type*) malloc(sizeof(Type));
+  type->typeClass = TP_STRING;
   return type;
 }
 
@@ -55,7 +69,7 @@ int compareType(Type* type1, Type* type2) {
   if (type1->typeClass == type2->typeClass) {
     if (type1->typeClass == TP_ARRAY) {
       if (type1->arraySize == type2->arraySize)
-	return compareType(type1->elementType, type2->elementType);
+        return compareType(type1->elementType, type2->elementType);
       else return 0;
     } else return 1;
   } else return 0;
@@ -64,6 +78,8 @@ int compareType(Type* type1, Type* type2) {
 void freeType(Type* type) {
   switch (type->typeClass) {
   case TP_INT:
+  case TP_FLOAT:
+  case TP_STRING:
   case TP_CHAR:
     free(type);
     break;
@@ -83,6 +99,20 @@ ConstantValue* makeIntConstant(int i) {
   return value;
 }
 
+ConstantValue* makeFloatConstant(float i) {
+  ConstantValue* value = (ConstantValue*) malloc(sizeof(ConstantValue));
+  value->type = TP_FLOAT;
+  value->floatValue = i;
+  return value;
+}
+
+ConstantValue* makeStringConstant(char str[]){
+  ConstantValue* value = (ConstantValue*) malloc(sizeof(ConstantValue));
+  value->type = TP_STRING;
+  value->stringValue = str;
+  return value;
+}
+
 ConstantValue* makeCharConstant(char ch) {
   ConstantValue* value = (ConstantValue*) malloc(sizeof(ConstantValue));
   value->type = TP_CHAR;
@@ -95,8 +125,12 @@ ConstantValue* duplicateConstantValue(ConstantValue* v) {
   value->type = v->type;
   if (v->type == TP_INT) 
     value->intValue = v->intValue;
-  else
+  else if(v->type == TP_CHAR)
     value->charValue = v->charValue;
+  else if(v->type == TP_STRING)
+    strcpy(value->stringValue, v->stringValue);
+  else
+    value->floatValue = v->floatValue;
   return value;
 }
 
@@ -295,6 +329,8 @@ void initSymTab(void) {
 
   intType = makeIntType();
   charType = makeCharType();
+  floatType = makeFloatType();
+  stringType = makeStringType();
 }
 
 void cleanSymTab(void) {
@@ -327,7 +363,6 @@ void declareObject(Object* obj) {
       break;
     }
   }
- 
   addObject(&(symtab->currentScope->objList), obj);
 }
 
