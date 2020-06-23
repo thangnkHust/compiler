@@ -518,7 +518,9 @@ void compileStatement(void)
   case SB_SEMICOLON:
   case KW_END:
   case KW_ELSE:
+    break;
   case KW_BREAK:
+    eat(KW_BREAK);
     break;
     // Error occurs
   default:
@@ -693,15 +695,12 @@ void compileSwitchCaseSt(void){
     checkTypeEquality(type1, type2);
     eat(SB_COLON);
     compileStatements();
-    eat(KW_BREAK);
+    // eat(KW_BREAK);
     // eat(SB_SEMICOLON);
   }
   eat(KW_DEFAULT);
   eat(SB_COLON);
-  compileStatement();
-  eat(SB_SEMICOLON);
-  eat(KW_BREAK);
-  // eat(SB_SEMICOLON);
+  compileStatements();
   eat(KW_END);
   eat(SB_SEMICOLON);
 }
