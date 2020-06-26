@@ -1,0 +1,16 @@
+Program GiaiThua; 
+
+var n : Integer;
+    i : Integer;
+
+Function F(i : Integer) : Integer;
+  Begin
+    If i = 0 Then F := 1 Else F := i * F (i - 1);
+  End;
+
+Begin
+  n := readi;
+  call writei(F(n));
+  (*if i = 0 then n := 1 else n := 0*)
+End.
+

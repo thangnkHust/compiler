@@ -1,0 +1,45 @@
+0:  J 35        =>  jump den dong 35, chuong trinh chinh bat dau tu 35
+1:  J 2         =>  jump den dong 2, phan bat dau cua function
+2:  INT 5       =>  tang thanh ghi t len them 5 (RV, DL, RA, SL + 1 bien cuc bo)
+3:  LV 0,4      =>  Load gia tri cua bien n
+4:  LC 0        =>  Load gia tri cua hang so 0
+5:  EQ          =>  So sanh n va 0 (s[t] va s[t+1]) => 1/0 ra s[t]
+6:  FJ 11       =>  False jump 11 neu s[t] == 0, t := t - 1
+7:  LA 0,0      =>  Lay ra dia chi cua F
+8:  LC 0        =>  Load hang so 0
+9:  ST          =>  Luu F := 0
+10:  J 34       =>  End function
+11:  LV 0,4     =>  Load gia tri bien n
+12:  LC 1       =>  Load gia tri hang so 1
+13:  EQ         =>  Neu n == 1
+14:  FJ 19      =>  Jump 19 neu s[t] == 0
+15:  LA 0,0     =>  Load dia chi cua F
+16:  LC 1       =>  Load hang so 1
+17:  ST         =>  F := 1
+18:  J 34       =>  End funtion
+19:  LA 0,0     =>  **Load dia chi cua F
+20:  INT 4      =>  Tang thang ghi t len them 4
+21:  LV 0,4     =>  Load gia tri cua n
+22:  LC 1       =>  Load hang so 1
+23:  SB         =>  Tinh n - 1
+24:  DCT 5      =>  Giam gia tri thanh ghi t xuong 5 (4 + 1 tham so)
+25:  CALL 1,1   =>  Goi lai F o vi tri base(1) + 1 = 2
+26:  INT 4      =>  ...
+27:  LV 0,4     =>  ...
+28:  LC 2       =>  ...
+29:  SB         =>  Tinh n - 2
+30:  DCT 5      =>  ...
+31:  CALL 1,1   =>  Goi lai F ...
+32:  AD         =>  Tinh F(n-1) + F(n-2)
+33:  ST         =>  Luu gia tri dinh stack cho F
+34:  EF         =>  Ket thuc Function
+35:  INT 5      =>  Tang gia tri thanh ghi T len 5 (4 + 1 local var)
+36:  LA 0,4     =>  Load dia chi cua n
+37:  RI         =>  Doc tu ban phim
+38:  ST         =>  Luu n boi ket qua vua nhap
+39:  INT 4      =>  Tang T len them 4
+40:  LV 0,4     =>  Lay gia tri cua n
+41:  DCT 5      =>  Giam thanh ghi T xuong bot 5 (4 + 1 local var o ham con)
+42:  CALL 0,1   =>  Goi den fuction
+43:  WRI        =>  Viet ket qua tinh duoc ra man hinh
+44:  HL         =>  Ket thuc chuong trinh

@@ -1,0 +1,13 @@
+Program ex1;
+Var N: integer;
+    Procedure B;
+    var A : integer;
+    begin
+        A := 10;
+        N := 30 + A;
+    end;
+begin
+    call B;
+    N := 10;
+    call writei(N);
+end.
