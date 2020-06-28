@@ -58,6 +58,7 @@ Type *compileExpression2(void);
 Type *compileExpression3(void);
 Type *compileTerm(void);
 void compileTerm2(void);
+// Them compileExp
 Type *compileExp(void);
 void compileExp2(void);
 Type *compileFactor(void);

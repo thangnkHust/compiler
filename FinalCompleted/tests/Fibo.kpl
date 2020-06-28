@@ -2,9 +2,9 @@ Program Fibo; (* Fibonacy *)
 Var n : Integer;
 Function F(n : Integer) : Integer;
   Begin
-    If n = 0 Then F := 0
+    (*If n = 0 Then F := 0
     Else If n = 1 then F := 1
-    Else F := F(n - 1) + F(n - 2);
+    Else F := F(n - 1) + F(n - 2);*)
   End;
 Begin
     n := readi;

@@ -422,6 +422,7 @@ void initSymTab(void)
   floatType = makeFloatType();
 
   charType = makeCharType();
+  // --- Them String ---
   stringType = makeStringType();
 }
 
