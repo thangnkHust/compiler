@@ -107,12 +107,12 @@ Token *readNumber(void)
     if (periodCount == 0 && charCodes[currentChar] == CHAR_PERIOD)
     {
       readChar();
-      if (charCodes[currentChar] == CHAR_RPAR)
-      {
-        fseek(inputStream, -2, SEEK_CUR);
-        readChar();
-        break;
-      }
+      // if (charCodes[currentChar] == CHAR_RPAR)
+      // {
+      //   fseek(inputStream, -2, SEEK_CUR);
+      //   readChar();
+      //   break;
+      // }
       fseek(inputStream, -2, SEEK_CUR);
       readChar();
 

@@ -684,15 +684,15 @@ void compileForSt(void)
 
 // ************* START UPDATE *************
 void compileSwitchCaseSt(void){
-  Type *type1, *type2;
+  Type *type1;
+  ConstantValue *constV;
   eat(KW_SWITCH);
   type1 = compileExpression();
   eat(KW_BEGIN);
   while(lookAhead->tokenType != KW_DEFAULT){
-    printf("hello");
     eat(KW_CASE);
-    type2 = compileConstant();
-    checkTypeEquality(type1, type2);
+    constV = compileConstant();
+    checkTypeEquality(type1, &(constV->type));
     eat(SB_COLON);
     compileStatements();
     // eat(KW_BREAK);
