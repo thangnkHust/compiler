@@ -277,7 +277,7 @@ ConstantValue *compileConstant(void)
   case SB_MINUS:
     eat(SB_MINUS);
     constValue = compileConstant2();
-    // TODO: So am
+    // So am
     // if(constValue->type == TP_INT)
     //   constValue->intValue = - constValue->intValue;
     // else if(constValue->type == TP_FLOAT)
@@ -495,6 +495,7 @@ void compileStatement(void)
     compileForSt();
     break;
 
+  // TODO: Bai 3 - Them switch case
   // ************ START UPDATE ************
   case KW_SWITCH:
     compileSwitchCaseSt();
@@ -531,7 +532,7 @@ void compileStatement(void)
 
 Type *compileLValue(void)
 {
-  // TODO: parse a lvalue (a variable, an array element, a parameter, the current function identifier)
+  // parse a lvalue (a variable, an array element, a parameter, the current function identifier)
   Object *var;
   Type *varType = NULL;
 
@@ -561,7 +562,7 @@ Type *compileLValue(void)
 
 // void compileAssignSt(void)
 // {
-//   // TODO: parse the assignment and check type consistency
+//   // parse the assignment and check type consistency
 //   Type *varType;
 //   Type *expressType;
 
@@ -661,7 +662,7 @@ void compileWhileSt(void)
 
 void compileForSt(void)
 {
-  // TODO: Check type consistency of FOR's variable
+  // Check type consistency of FOR's variable
   Type *varType;
   Type *type;
 
@@ -682,6 +683,7 @@ void compileForSt(void)
   compileStatement();
 }
 
+// TODO: Bai 3 - compile switch case
 // ************* START UPDATE *************
 void compileSwitchCaseSt(void){
   Type *type1;
@@ -727,7 +729,7 @@ void compileDoWhileSt(void)
 
 void compileArgument(Object *param)
 {
-  // TODO: parse an argument, and check type consistency
+  // parse an argument, and check type consistency
   //       If the corresponding parameter is a reference, the argument must be a lvalue
   Type *type;
   if (param->paramAttrs->kind == PARAM_VALUE)
@@ -744,7 +746,7 @@ void compileArgument(Object *param)
 
 void compileArguments(ObjectNode *paramList)
 {
-  //TODO: parse a list of arguments, check the consistency of the arguments and the given parameters
+  // parse a list of arguments, check the consistency of the arguments and the given parameters
   ObjectNode *node = paramList;
   switch (lookAhead->tokenType)
   {
@@ -792,7 +794,7 @@ void compileArguments(ObjectNode *paramList)
 
 void compileCondition(void)
 {
-  // TODO: check the type consistency of LHS and RSH, check the basic type
+  //  check the type consistency of LHS and RSH, check the basic type
   Type *type1;
   Type *type2;
 
@@ -1033,7 +1035,7 @@ void compileTerm2(void)
   case KW_ELSE:
   case KW_THEN:
   case KW_BEGIN:
-  // TODO: Bai 3 - RETURN la Follow Expression
+  // Retrun la Follow Expression
   case KW_RETURN:
     break;
   default:
@@ -1054,7 +1056,7 @@ Type *compileExp(void)
   return type;
 }
 
-// TODO: Bai2 <Thêm phép lấy mũ>
+// TODO: Bai2 - Thêm phép lấy mũ
 void compileExp2(void)
 {
   Type *type;
@@ -1068,7 +1070,7 @@ void compileExp2(void)
     break;
 
   // check the FOLLOW set
-  // TODO: Bai2 <Thêm phép lấy mũ>
+  // TODO: Bai2 - Them follow
   case SB_TIMES:
   case SB_SLASH:
 
@@ -1178,7 +1180,7 @@ Type *compileFactor(void)
 
 Type *compileIndexes(Type *arrayType)
 {
-  // TODO: parse a sequence of indexes, check the consistency to the arrayType, and return the element type
+  //parse a sequence of indexes, check the consistency to the arrayType, and return the element type
   Type *type;
   while (lookAhead->tokenType == SB_LSEL)
   {

@@ -14,8 +14,9 @@ enum TypeClass
   TP_INT,
   TP_CHAR,
   TP_ARRAY,
-  // Thêm cho Float
+  // Them cho Float
   TP_FLOAT,
+  // Them cho String
   TP_STRING
 };
 

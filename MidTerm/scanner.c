@@ -237,6 +237,7 @@ Token *getToken(void)
   case CHAR_TIMES:
     token = makeToken(SB_TIMES, lineNo, colNo);
     readChar();
+    // Lay token SB_EXP
     if(charCodes[currentChar] == CHAR_TIMES){
       token = makeToken(SB_EXP, lineNo, colNo);
       readChar();
@@ -500,7 +501,7 @@ void printToken(Token *token)
   case KW_RETURN:
     printf("KW_RETURN\n");
     break;
-
+  // Add switch case defaut break
   case KW_SWITCH:
     printf("KW_SWITCH\n");
     break;
@@ -575,6 +576,7 @@ void printToken(Token *token)
   case SB_RSEL:
     printf("SB_RSEL\n");
     break;
+  // Them print SB_EXP
   case SB_EXP:
     printf("SB_EXP\n");
     break;

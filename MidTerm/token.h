@@ -46,6 +46,7 @@ typedef enum
   // Them KW_SWITCH CASE
   KW_SWITCH,
   KW_CASE,
+  KW_DEFAULT,
   KW_BREAK,
 
   // Thêm keyword KW_FLOAT vào trong token.h
@@ -60,8 +61,6 @@ typedef enum
 
   // Add keyword RETURN
   KW_RETURN,
-
-  KW_DEFAULT,
 
   // Add kw sum
   KW_SUM,
@@ -85,6 +84,7 @@ typedef enum
   SB_RPAR,
   SB_LSEL,
   SB_RSEL,
+  // Them ky tu **
   SB_EXP
 } TokenType;
 
