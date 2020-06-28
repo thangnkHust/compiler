@@ -667,7 +667,6 @@ void compileForSt(void)
 
   eat(KW_FOR);
 
-  // // check if the identifier is a variable
   // checkDeclaredVariable(currentToken->string);
   varType = compileLValue();
 
@@ -690,6 +689,7 @@ void compileSwitchCaseSt(void){
   type1 = compileExpression();
   eat(KW_BEGIN);
   while(lookAhead->tokenType != KW_DEFAULT){
+    printf("hello");
     eat(KW_CASE);
     type2 = compileConstant();
     checkTypeEquality(type1, type2);
@@ -866,7 +866,6 @@ Type *compileExpression(void)
   // if <Condition> return <Expression> else return <Expression>
   case KW_IF:
     eat(KW_IF);
-
     compileCondition();
     // Check: Express ::= IF condition THEN EX1 else EX2
     if(lookAhead->tokenType == KW_THEN){
@@ -914,8 +913,7 @@ Type *compileExpression2(void)
   type2 = compileExpression3();
   if (type2 == NULL)
     return type1;
-  else
-  {
+  else{
     checkTypeEquality(type1, type2);
     return type1;
   }
@@ -930,13 +928,17 @@ Type *compileExpression3(void)
   {
   case SB_PLUS:
     eat(SB_PLUS);
+    // TODO: Bai 4 - Cong 2 string
     type1 = compileTerm();
-    checkNumberType(type1);
+    checkBasicType(type1);
+    // checkNumberType(type1);
 
     type2 = compileExpression3();
-    if (type2 != NULL)
-      checkNumberType(type2);
-
+    if (type2 != NULL){
+      checkBasicType(type2);
+      // checkNumberType(type2);
+      checkTypeEquality(type1, type2);
+    }
     return type1;
     break;
   case SB_MINUS:
@@ -978,10 +980,14 @@ Type *compileExpression3(void)
 
 Type *compileTerm(void)
 {
-  // TODO: check type of Term2
+  // check type of Term2
   Type *type;
 
-  type = compileFactor();
+  type = compileExp();
+  // Chan "abc" * number
+  if(type->typeClass == TP_STRING || type->typeClass == TP_CHAR){
+    return type;
+  }
   compileTerm2();
 
   return type;
@@ -989,40 +995,27 @@ Type *compileTerm(void)
 
 void compileTerm2(void)
 {
-  // TODO: check type of term2
+  // check type of term2
   Type *type;
 
   switch (lookAhead->tokenType)
   {
   case SB_TIMES:
     eat(SB_TIMES);
-    type = compileFactor();
+    type = compileExp();
     checkNumberType(type);
     // checkIntType(type);
     compileTerm2();
     break;
   case SB_SLASH:
     eat(SB_SLASH);
-    type = compileFactor();
+    type = compileExp();
     checkNumberType(type);
-    // checkIntType(type);
-    compileTerm2();
-    break;
-  case SB_EXP:
-    eat(SB_EXP);
-    type = compileFactor();
-    checkIntType(type);
-    // type = compileExpression();
     // checkIntType(type);
     compileTerm2();
     break;
     // check the FOLLOW set
   case SB_PLUS:
-    eat(SB_PLUS);
-    type = compileFactor();
-    if(type->typeClass == TP_STRING)
-      checkStringType(type);
-    break;
   case SB_MINUS:
   case KW_TO:
   case KW_DO:
@@ -1040,19 +1033,74 @@ void compileTerm2(void)
   case KW_ELSE:
   case KW_THEN:
   case KW_BEGIN:
-  // Them RETURN
+  // TODO: Bai 3 - RETURN la Follow Expression
   case KW_RETURN:
-
     break;
   default:
     error(ERR_INVALID_TERM, lookAhead->lineNo, lookAhead->colNo);
   }
 }
 
+// TODO: Bai2 - Thêm phép lấy mũ
+Type *compileExp(void)
+{
+  Type *type;
+  type = compileFactor();
+  // Chan "abc" ** number
+  if(type->typeClass == TP_STRING || type->typeClass == TP_CHAR){
+    return type;
+  }
+  compileExp2();
+  return type;
+}
+
+// TODO: Bai2 <Thêm phép lấy mũ>
+void compileExp2(void)
+{
+  Type *type;
+  switch (lookAhead->tokenType)
+  {
+  case SB_EXP:
+    eat(SB_EXP);
+    type = compileFactor();
+    checkNumberType(type);
+    compileExp2();
+    break;
+
+  // check the FOLLOW set
+  // TODO: Bai2 <Thêm phép lấy mũ>
+  case SB_TIMES:
+  case SB_SLASH:
+
+  case SB_PLUS:
+  case SB_MINUS:
+  case KW_TO:
+  case KW_DO:
+  case SB_RPAR:
+  case SB_COMMA:
+  case SB_EQ:
+  case SB_NEQ:
+  case SB_LE:
+  case SB_LT:
+  case SB_GE:
+  case SB_GT:
+  case SB_RSEL:
+  case SB_SEMICOLON:
+  case KW_END:
+  case KW_ELSE:
+  case KW_THEN:
+  case KW_RETURN:
+  case KW_BEGIN:
+    break;
+  default:
+    printf("Error ! INVALID EXP\n");
+    error(ERR_INVALID_TERM, lookAhead->lineNo, lookAhead->colNo);
+  }
+}
+
 Type *compileFactor(void)
 {
-  // TODO: parse a factor and return the factor's type
-
+  // parse a factor and return the factor's type
   Object *obj;
   Type *type = NULL;
 
@@ -1071,14 +1119,14 @@ Type *compileFactor(void)
     eat(TK_CHAR);
     type = charType;
     break;
-  // Sua kieu: a*(b+c)
+  // TODO: Bai 2 - Sua kieu: a*(b+c)
   case SB_LPAR:
     eat(SB_LPAR);
     type = compileExpression();
     eat(SB_RPAR);
     break;
 
-  // Them string
+  // TODO: Bai 4 - Them string la 1 factor
   case TK_STRING:
     eat(TK_STRING);
     type = stringType;

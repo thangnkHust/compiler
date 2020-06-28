@@ -2,6 +2,7 @@ Program Fibo; (* Fibonacy *)
 Var n : Integer;
     x : Integer;
     k : Integer;
+    s : String;
 Function F(n : Integer) : Integer;
   Begin
     If n = 0 Then F := 0
@@ -12,4 +13,5 @@ Begin
     n := readi;
     Call Writei(F(n));
     x := 2**(3*(2+5));
+    s := "abc" + "abc";
 End. 
