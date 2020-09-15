@@ -183,7 +183,6 @@ Token *readConstChar(void)
 
 Token *readConstString(void)
 {
-  // printf("\n\nUa ki cuc di");
   Token *token = makeToken(TK_STRING, lineNo, colNo);
   int count = 0;
   readChar();

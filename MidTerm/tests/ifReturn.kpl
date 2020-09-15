@@ -1,8 +1,8 @@
 program ifExpress;
 const Y = 100.5;
-var Tong : float;
+var Tong : double;
     number : integer;
-    x : float;
+    x : double;
 
 begin
     do 

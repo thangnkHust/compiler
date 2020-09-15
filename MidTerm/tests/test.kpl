@@ -1,10 +1,11 @@
-Program test; 
+Program test;
+const str = "hello";
 Var n : double;
     s : string;
 
 function F(n : double; s: string) : string;
 begin
-    if n < 0 then F:= "abc" + 2 else F:= F(n-1, s) + F(n-1, s);
+    if n < 0 then F:= "abc" + "kjasd" else F:= F(n-1, s) + F(n-1, s);
 end;
 begin
     call writeS(F(10.5, "hello"));

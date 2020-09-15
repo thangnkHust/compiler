@@ -1,10 +1,10 @@
 Program Example1; (* Example 1 *)
-TYPE T = float;
-Var n : float;
+TYPE T = double;
+Var n : double;
     z : string;
-    i : ARRAY(.10.) OF T;
+    i : ARRAY(. 10 .) OF T;
 
 Begin
-    n := 5.5;
+    n := (2+3)**5;
     z := "Hello";
 End. (* Example 1 *)

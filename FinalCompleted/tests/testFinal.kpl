@@ -7,10 +7,14 @@ Function F(n : Integer) : Integer;
     If n = 0 then F := 1;
     If n >= 1 then F := 2 * F(n-1);
   End;
+Procedure input;
+  var input : integer;
+  begin
+    call input;
+    input := readi;
+  end;
 
 Begin
-  n := readi;
-  if n < 0 then call writec('E')
-  else if n > 30 then call writec('E')
-  else call writei(F(n));
+  call input;
+  call writei(F(n));
 End.

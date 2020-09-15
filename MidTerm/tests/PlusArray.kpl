@@ -2,9 +2,9 @@ PROGRAM PLUSARRAY;
 VAR  
      I : INTEGER;
      J : INTEGER;
-     A : Array (.10.) OF Array (.10.) OF INTEGER;
-     B : Array (.10.) OF Array (.10.) OF INTEGER;
-     C : Array (.10.) OF Array (.10.) OF INTEGER;
+     A : Array (. 10 .) OF Array (.10 .) OF INTEGER;
+     B : Array (.10 .) OF Array (.10 .) OF INTEGER;
+     C : Array (.10 .) OF Array (.10 .) OF INTEGER;
      N : INTEGER;
 PROCEDURE PLUSARRAY;
 BEGIN
